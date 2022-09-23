@@ -8,7 +8,6 @@ export class Validator {
 
   // Метод, проверяющий является ли число целым.
   static checkIntNumber(number) {
-    number = `${number}`;
     if (number[0] === '-') {
       return number
         .substring(1)
