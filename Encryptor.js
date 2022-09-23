@@ -70,7 +70,7 @@ export class Encryptor {
       while (key <= -len) {
         key %= -len;
       }
-      key = key < 0 ? len + key : key;
+      key = len + key;
     }
     return Number(key);
   }
