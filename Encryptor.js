@@ -2,8 +2,9 @@ import { AlphabetService } from './AlphabetService.js';
 
 export class Encryptor {
   constructor(lang) {
+    this.lang = lang;
     this.alphabet = [
-      ...AlphabetService.getAlphabet(lang),
+      ...AlphabetService.getAlphabet(this.lang),
       ...AlphabetService.digits,
     ];
   }

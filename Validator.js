@@ -23,7 +23,7 @@ export class Validator {
     return AlphabetService.getAlphabet(lang).includes(letter);
   }
 
-  //Метод, проверяющий относится ли слово к выбранному языку.
+  // Метод, проверяющий относится ли слово к выбранному языку.
   static checkWord(word, lang) {
     return word
       .split('')
