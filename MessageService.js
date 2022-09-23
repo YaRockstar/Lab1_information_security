@@ -3,11 +3,23 @@ export class MessageService {
     return 'Вы не выбрали язык';
   }
 
-  missingWord() {
-    return 'Вы не ввели слово';
+  missingText() {
+    return 'Вы не ввели текст';
   }
 
   missingKey() {
     return 'Вы не ввели ключ';
+  }
+
+  nonIntegerKey() {
+    return 'Ключ не является целым числом';
+  }
+
+  unencryptedText() {
+    return 'Вы ещё не зашифровали текст';
+  }
+
+  wrongAlphabet() {
+    return 'Набранные символы не соответствуют символам выбранного алфавита';
   }
 }

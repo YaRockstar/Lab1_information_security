@@ -1,8 +1,12 @@
 import { Encryptor } from './Encryptor.js';
 import { Validator } from './Validator.js';
+import { MessageService } from './MessageService.js';
 
 // Переменная, которая будет хранить экземпляр класса Encryptor.
 let encryptor;
+
+// Экземпляр класса MessageService.
+const message = new MessageService();
 
 // Верхние кнопки: русский язык, сбросить всё, английский язык.
 const ruButton = document.querySelector('.ru-btn');
@@ -74,30 +78,29 @@ resetButton.addEventListener('click', () => {
 // Обработка нажатия на кнопку шифрования слова по ключу.
 document.querySelector('.encrypt-btn').addEventListener('click', () => {
   if (!encryptor) {
-    langError.textContent = 'Вы не выбрали язык';
+    langError.textContent = message.missingLang();
     return;
   }
 
   const word = wordInput.value;
   if (word === '') {
-    wordError.textContent = 'Вы не ввели слово';
+    wordError.textContent = message.missingWord();
     return;
   }
 
-  if (!Validator.checkWord(word, encryptor.lang)) {
-    wordError.textContent =
-      'Набранные символы не соответствуют символам выбранного алфавита';
+  if (!Validator.checkText(word, encryptor.lang)) {
+    wordError.textContent = message.wrongAlphabet();
     return;
   }
 
   let key = keyInput.value;
   if (key === '') {
-    keyError.textContent = 'Вы не ввели ключ';
+    keyError.textContent = message.missingKey();
     return;
   }
 
   if (!Validator.checkIntNumber(key)) {
-    keyError.textContent = 'Ключ не является целым числом';
+    keyError.textContent = message.nonIntegerKey();
     return;
   }
 
@@ -110,18 +113,18 @@ document.querySelector('.encrypt-btn').addEventListener('click', () => {
 document.querySelector('.decrypt-btn').addEventListener('click', () => {
   const word = encryptedWord.textContent;
   if (!encryptor || word === '') {
-    wordError.textContent = 'Вы ещё не зашифровали слово';
+    wordError.textContent = message.unencryptedWord();
     return;
   }
 
   let key = keyInput.value;
   if (key === '') {
-    keyError.textContent = 'Вы не ввели ключ';
+    keyError.textContent = message.missingKey();
     return;
   }
 
   if (!Validator.checkIntNumber(key)) {
-    keyError.textContent = 'Ключ не является целым числом';
+    keyError.textContent = message.nonIntegerKey();
     return;
   }
 
