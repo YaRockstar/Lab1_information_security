@@ -74,20 +74,17 @@ resetButton.addEventListener('click', () => {
 // Обработка нажатия на кнопку шифрования слова по ключу.
 document.querySelector('.encrypt-btn').addEventListener('click', () => {
   if (!encryptor) {
-    // alert('Вы не выбрали язык');
     langError.textContent = 'Вы не выбрали язык';
     return;
   }
 
   const word = wordInput.value;
   if (word === '') {
-    // alert('Вы не ввели слово');
     wordError.textContent = 'Вы не ввели слово';
     return;
   }
 
   if (!Validator.checkWord(word, encryptor.lang)) {
-    // alert('Набранные символы не соответствуют символам выбранного алфавита');
     wordError.textContent =
       'Набранные символы не соответствуют символам выбранного алфавита';
     return;
@@ -95,13 +92,11 @@ document.querySelector('.encrypt-btn').addEventListener('click', () => {
 
   let key = keyInput.value;
   if (key === '') {
-    // alert('Вы не ввели ключ');
     keyError.textContent = 'Вы не ввели ключ';
     return;
   }
 
   if (!Validator.checkIntNumber(key)) {
-    // alert('Ключ не является целым числом');
     keyError.textContent = 'Ключ не является целым числом';
     return;
   }
@@ -115,20 +110,17 @@ document.querySelector('.encrypt-btn').addEventListener('click', () => {
 document.querySelector('.decrypt-btn').addEventListener('click', () => {
   const word = encryptedWord.textContent;
   if (!encryptor || word === '') {
-    // alert('Вы не ввели слово');
     wordError.textContent = 'Вы ещё не зашифровали слово';
     return;
   }
 
   let key = keyInput.value;
   if (key === '') {
-    // alert('Вы не ввели ключ');
     keyError.textContent = 'Вы не ввели ключ';
     return;
   }
 
   if (!Validator.checkIntNumber(key)) {
-    // alert('Ключ не является целым числом');
     keyError.textContent = 'Ключ не является целым числом';
     return;
   }
