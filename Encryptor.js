@@ -1,20 +1,16 @@
-import { Alphabet } from './Alphabet.js';
+import { AlphabetService } from './AlphabetService.js';
 
 export class Encryptor {
   constructor(lang) {
     this.lang = lang;
-    if (lang === 'russian') {
-      this.alphabet = [...Alphabet.russian, ...Alphabet.digits];
-    }
-
-    if (lang === 'english') {
-      this.alphabet = [...Alphabet.english, ...Alphabet.digits];
-    }
+    this.alphabet = [
+      ...AlphabetService.getAlphabet(this.lang),
+      ...AlphabetService.digits,
+    ];
   }
 
   // Метод, шифрующий слово по целочисленному ключу.
-  encrypt(word, key) {
-    key = this.shortenKey(key);
+  encryptWord(word, key) {
     return word
       .split('')
       .map(symbol => {
@@ -28,9 +24,17 @@ export class Encryptor {
       .join('');
   }
 
-  // Метод, расшифровывающий слово по целочисленному ключу.
-  decrypt(word, key) {
+  // Метод, шифрующий текст по целочисленному ключу.
+  encryptText(text, key, separator = ' ') {
     key = this.shortenKey(key);
+    return text
+      .split(separator)
+      .map(word => this.encryptWord(word, key))
+      .join(separator);
+  }
+
+  // Метод, расшифровывающий слово по целочисленному ключу.
+  decryptWord(word, key) {
     return word
       .split('')
       .map(symbol => {
@@ -42,6 +46,15 @@ export class Encryptor {
         return this.alphabet[index - key];
       })
       .join('');
+  }
+
+  // Метод, расшифровывающий текст по целочисленному ключу.
+  decryptText(text, key, separator = ' ') {
+    key = this.shortenKey(key);
+    return text
+      .split(separator)
+      .map(word => this.decryptWord(word, key))
+      .join(separator);
   }
 
   // Укорачивает ключ (если он отрицательный,
@@ -57,7 +70,7 @@ export class Encryptor {
       while (key <= -len) {
         key %= -len;
       }
-      key = key < 0 ? len + key : key;
+      key = len + key;
     }
     return Number(key);
   }

@@ -1,26 +1,30 @@
 import { Encryptor } from './Encryptor.js';
 import { Validator } from './Validator.js';
+import { MessageService } from './MessageService.js';
 
 // Переменная, которая будет хранить экземпляр класса Encryptor.
 let encryptor;
 
+// Экземпляр класса MessageService.
+const message = new MessageService();
+
 // Верхние кнопки: русский язык, сбросить всё, английский язык.
-const ruButton = document.querySelector('.ru-btn');
-const enButton = document.querySelector('.en-btn');
+const ruButton = document.querySelector('.russian-btn');
+const enButton = document.querySelector('.english-btn');
 const resetButton = document.querySelector('.reset-btn');
 
 // Поля для ввода слова и ключа.
-const wordInput = document.querySelector('.input-word');
+const textInput = document.querySelector('.input-text');
 const keyInput = document.querySelector('.input-key');
 
 // Там будет выводиться зашифрованное и расшифрованное слово.
-const encryptedWord = document.querySelector('.encrypted-word');
-const decryptedWord = document.querySelector('.decrypted-word');
+const encryptedText = document.querySelector('.encrypted-text');
+const decryptedText = document.querySelector('.decrypted-text');
 
 // Тут будут выводиться ошибки, связанные с отсутствием выбора языка
 // и с вводом неправильного слова или ключа.
 const langError = document.querySelector('.lang-error');
-const wordError = document.querySelector('.word-error');
+const textError = document.querySelector('.text-error');
 const keyError = document.querySelector('.key-error');
 
 // Обработка нажатия на кнопку выбора русского языка.
@@ -30,11 +34,11 @@ ruButton.addEventListener('click', () => {
   ruButton.style.background = 'green';
   enButton.style.background = 'white';
 
-  encryptedWord.textContent = '';
-  decryptedWord.textContent = '';
+  encryptedText.textContent = '';
+  decryptedText.textContent = '';
 
   langError.textContent = '';
-  wordError.textContent = '';
+  textError.textContent = '';
   keyError.textContent = '';
 });
 
@@ -45,11 +49,11 @@ enButton.addEventListener('click', () => {
   enButton.style.background = 'green';
   ruButton.style.background = 'white';
 
-  encryptedWord.textContent = '';
-  decryptedWord.textContent = '';
+  encryptedText.textContent = '';
+  decryptedText.textContent = '';
 
   langError.textContent = '';
-  wordError.textContent = '';
+  textError.textContent = '';
   keyError.textContent = '';
 });
 
@@ -60,80 +64,71 @@ resetButton.addEventListener('click', () => {
   ruButton.style.background = 'white';
   enButton.style.background = 'white';
 
-  wordInput.value = '';
+  textInput.value = '';
   keyInput.value = '';
 
-  encryptedWord.textContent = '';
-  decryptedWord.textContent = '';
+  encryptedText.textContent = '';
+  decryptedText.textContent = '';
 
   langError.textContent = '';
-  wordError.textContent = '';
+  textError.textContent = '';
   keyError.textContent = '';
 });
 
 // Обработка нажатия на кнопку шифрования слова по ключу.
 document.querySelector('.encrypt-btn').addEventListener('click', () => {
   if (!encryptor) {
-    // alert('Вы не выбрали язык');
-    langError.textContent = 'Вы не выбрали язык';
+    langError.textContent = message.missingLang();
     return;
   }
 
-  const word = wordInput.value;
-  if (word === '') {
-    // alert('Вы не ввели слово');
-    wordError.textContent = 'Вы не ввели слово';
+  const text = textInput.value;
+  if (text === '') {
+    textError.textContent = message.missingText();
     return;
   }
 
-  if (!Validator.checkWord(word, encryptor.lang)) {
-    // alert('Набранные символы не соответствуют символам выбранного алфавита');
-    wordError.textContent =
-      'Набранные символы не соответствуют символам выбранного алфавита';
+  if (!Validator.checkText(text, encryptor.lang)) {
+    textError.textContent = message.wrongAlphabet();
     return;
   }
 
-  let key = keyInput.value;
+  const key = keyInput.value;
   if (key === '') {
-    // alert('Вы не ввели ключ');
-    keyError.textContent = 'Вы не ввели ключ';
+    keyError.textContent = message.missingKey();
     return;
   }
 
   if (!Validator.checkIntNumber(key)) {
-    // alert('Ключ не является целым числом');
-    keyError.textContent = 'Ключ не является целым числом';
+    keyError.textContent = message.nonIntegerKey();
     return;
   }
 
-  encryptedWord.textContent = encryptor.encrypt(word, key);
-  wordError.textContent = '';
+  encryptedText.textContent = encryptor.encryptText(text, key);
+  textError.textContent = '';
   keyError.textContent = '';
 });
 
 // Обработка нажатия на кнопку расшифровки слова по ключу.
 document.querySelector('.decrypt-btn').addEventListener('click', () => {
-  const word = encryptedWord.textContent;
-  if (!encryptor || word === '') {
-    // alert('Вы не ввели слово');
-    wordError.textContent = 'Вы ещё не зашифровали слово';
+  const text = encryptedText.textContent;
+  if (!encryptor || text === '') {
+    textError.textContent = message.unencryptedText();
     return;
   }
 
-  let key = keyInput.value;
+  const key = keyInput.value;
   if (key === '') {
-    // alert('Вы не ввели ключ');
-    keyError.textContent = 'Вы не ввели ключ';
+    keyError.textContent = message.missingKey();
     return;
   }
 
   if (!Validator.checkIntNumber(key)) {
-    // alert('Ключ не является целым числом');
-    keyError.textContent = 'Ключ не является целым числом';
+    keyError.textContent = message.nonIntegerKey();
     return;
   }
 
-  decryptedWord.textContent = encryptor.decrypt(word, key);
-  wordError.textContent = '';
+  decryptedText.textContent = encryptor.decryptText(text, key);
+  textError.textContent = '';
   keyError.textContent = '';
 });

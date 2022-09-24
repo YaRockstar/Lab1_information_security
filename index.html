@@ -16,28 +16,28 @@
       <main>
         <p class="hint">Выберите язык:</p>
         <div class="high-buttons">
-          <button class="ru-btn">Русский</button>
+          <button class="russian-btn lang-btn">Русский</button>
           <button class="reset-btn">Сбросить</button>
-          <button class="en-btn">English</button>
+          <button class="english-btn lang-btn">English</button>
         </div>
         <p class="lang-error error"></p>
         <div class="inputs">
-          <p class="hint">Введите слово:</p>
-          <div class="inputs__word">
-            <input class="input-word" type="text" />
-            <p class="word-error error"></p>
+          <p class="hint">Введите текст (нижний регистр):</p>
+          <div class="inputs__text">
+            <input class="input-text" type="text" />
+            <p class="text-error error"></p>
           </div>
-          <p class="hint">Введите ключ:</p>
+          <p class="hint">Введите ключ (целочисленный):</p>
           <div class="inputs__key">
             <input class="input-key" type="text" inputmode="numeric" />
             <p class="key-error error"></p>
           </div>
           <div class="encryption">
-            <p class="encrypted-word"></p>
+            <p class="encrypted-text"></p>
             <button class="encrypt-btn">Зашифровать</button>
           </div>
           <div class="decryption">
-            <p class="decrypted-word"></p>
+            <p class="decrypted-text"></p>
             <button class="decrypt-btn">Расшифровать</button>
           </div>
         </div>
